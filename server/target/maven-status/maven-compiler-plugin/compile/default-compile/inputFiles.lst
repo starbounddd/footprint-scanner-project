@@ -1,1 +1,8 @@
-C:\Users\ppeck\Downloads\Projects\fingerprint-backend\src\main\java\org\example\Main.java
+C:\Users\ppeck\Downloads\Projects\footprint-scanner-project\server\src\main\java\org\example\ImageFile.java
+C:\Users\ppeck\Downloads\Projects\footprint-scanner-project\server\src\main\java\org\example\LoadImageHandler.java
+C:\Users\ppeck\Downloads\Projects\footprint-scanner-project\server\src\main\java\org\example\RunScannerHandler.java
+C:\Users\ppeck\Downloads\Projects\footprint-scanner-project\server\src\main\java\org\example\Server.java
+C:\Users\ppeck\Downloads\Projects\footprint-scanner-project\server\src\main\java\org\example\Storage\FileStorage.java
+C:\Users\ppeck\Downloads\Projects\footprint-scanner-project\server\src\main\java\org\example\Storage\FirebaseUtilities.java
+C:\Users\ppeck\Downloads\Projects\footprint-scanner-project\server\src\main\java\org\example\Storage\StorageInterface.java
+C:\Users\ppeck\Downloads\Projects\footprint-scanner-project\server\src\main\java\org\example\ViewImageHandler.java
