@@ -4,6 +4,8 @@ import './styles/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// Import your Publishable Key
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
