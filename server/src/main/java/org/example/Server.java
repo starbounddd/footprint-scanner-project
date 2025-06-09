@@ -54,7 +54,7 @@ public class Server {
       Spark.get("viewimage", new ViewImageHandler(imageFile1));
       Spark.get("viewimage2", new ViewImageHandler(candidateImage));
       Spark.get("runscanner", new RunScannerHandler(imageFile1, candidateImage));
-      Spark.get("loadToStorage", new AddToStorage());
+      Spark.post("loadToStorage", new AddToStorage(firebaseUtils));
 
       Spark.init();
       Spark.awaitInitialization();
