@@ -1,11 +1,7 @@
-package org.example;
+package org.example.Handlers;
 
-import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
-import java.util.HashMap;
-import java.util.Map;
-import org.example.LoadImageHandler.ImageFailureResponse;
-import org.example.LoadImageHandler.ImageSuccessResponse;
+import org.example.ImageFile;
 import spark.Request;
 import spark.Response;
 import spark.Route;

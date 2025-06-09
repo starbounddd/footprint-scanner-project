@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-
-
+import '../styles/components.css';
 
 
 export default function ScannerResults(){

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Handlers;
 
 import com.machinezoo.sourceafis.FingerprintImage;
 import com.machinezoo.sourceafis.FingerprintImageOptions;
@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import org.example.ImageFile;
 import spark.Request;
 import spark.Response;
 import spark.Route;

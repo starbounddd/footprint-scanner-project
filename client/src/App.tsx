@@ -1,23 +1,17 @@
 import './styles/App.css';
+import React, { useState } from 'react';
 import { ControlPanel } from './components/Controls';
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
+import { AppMode } from './types';
+
+
 function App() {
-  const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
-  
-  if (!PUBLISHABLE_KEY) {
-    throw new Error('Missing Publishable Key')
-  }
-  
+  const [mode, setMode] = useState<AppMode>(AppMode.ONE_TO_ONE);
 
   return (
     <div className="App">
-      <SignedIn>
-        <UserButton />
-        <ControlPanel />
-      </SignedIn>
-      <SignedOut>
-        <SignInButton />
-      </SignedOut>
+        <ControlPanel mode={mode} setMode={setMode} />
+
       <div className="ControlPanel"></div>
     </div>
   );

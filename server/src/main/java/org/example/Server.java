@@ -4,6 +4,13 @@ import static spark.Spark.after;
 import static spark.Spark.options;
 import static spark.Spark.get;
 
+import java.io.IOException;
+import org.example.Handlers.AddToStorage;
+import org.example.Handlers.LoadImageHandler;
+import org.example.Handlers.RunScannerHandler;
+import org.example.Handlers.ViewImageHandler;
+import org.example.Storage.FirebaseUtilities;
+import org.example.Storage.StorageInterface;
 import spark.Spark;
 
 public class Server {
@@ -38,14 +45,26 @@ public class Server {
     ImageFile imageFile1 = new ImageFile();
     ImageFile candidateImage = new ImageFile();
 
-    Spark.get("loadimage", new LoadImageHandler(imageFile1, candidateImage));
-    Spark.get("viewimage", new ViewImageHandler(imageFile1));
-    Spark.get("viewimage2", new ViewImageHandler(candidateImage));
-    Spark.get("runscanner", new RunScannerHandler(imageFile1, candidateImage));
+    StorageInterface firebaseUtils;
 
-    Spark.init();
-    Spark.awaitInitialization();
+    try {
+      firebaseUtils = new FirebaseUtilities();
 
-    System.out.println("Server started at http://localhost:" + port);
+      Spark.get("loadimage", new LoadImageHandler(imageFile1, candidateImage));
+      Spark.get("viewimage", new ViewImageHandler(imageFile1));
+      Spark.get("viewimage2", new ViewImageHandler(candidateImage));
+      Spark.get("runscanner", new RunScannerHandler(imageFile1, candidateImage));
+      Spark.get("loadToStorage", new AddToStorage());
+
+      Spark.init();
+      Spark.awaitInitialization();
+
+      System.out.println("Server started at http://localhost:" + port);
+    } catch (IOException e) {
+      e.printStackTrace();
+      System.err.println(
+          "Error: Could not initialize Firebase. Likely due to firebase_config.json not being found. Exiting.");
+      System.exit(1);
+    }
   }
 }

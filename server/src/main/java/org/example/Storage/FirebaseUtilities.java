@@ -42,9 +42,9 @@ public class FirebaseUtilities implements StorageInterface {
   }
 
   @Override
-  public List<Map<String, Object>> getCollection(String uid, String collection_id)
+  public List<Map<String, Object>> getCollection(String collection_id)
       throws InterruptedException, ExecutionException, IllegalArgumentException {
-    if (uid == null || collection_id == null) {
+    if (collection_id == null) {
       throw new IllegalArgumentException("getCollection: uid and/or collection_id cannot be null");
     }
 
@@ -52,7 +52,7 @@ public class FirebaseUtilities implements StorageInterface {
 
     Firestore db = FirestoreClient.getFirestore();
     // 1: Make the data payload to add to your collection
-    CollectionReference dataRef = db.collection("users").document(uid).collection(collection_id);
+    CollectionReference dataRef = db.collection("users").document("Host").collection(collection_id);
 
     // 2: Get pin documents
     QuerySnapshot dataQuery = dataRef.get().get();
@@ -67,9 +67,9 @@ public class FirebaseUtilities implements StorageInterface {
   }
 
   @Override
-  public void addDocument(String uid, String collection_id, String doc_id, Map<String, Object> data)
+  public void addDocument(String collection_id, String doc_id, Map<String, Object> data)
       throws IllegalArgumentException, ExecutionException, InterruptedException {
-    if (uid == null || collection_id == null || doc_id == null || data == null) {
+    if (collection_id == null || doc_id == null || data == null) {
       throw new IllegalArgumentException(
           "addDocument: uid, collection_id, doc_id, or data cannot be null");
     }
@@ -82,7 +82,7 @@ public class FirebaseUtilities implements StorageInterface {
     Firestore db = FirestoreClient.getFirestore();
     // 1: Get a ref to the collection that you created
     DocumentReference docRef =
-        db.collection("users").document(uid).collection(collection_id).document(doc_id);
+        db.collection("users").document("Host").collection(collection_id).document(doc_id);
     // 2: Write data to the collection ref
     ApiFuture<WriteResult> writeResult = docRef.set(data);
 
@@ -90,20 +90,15 @@ public class FirebaseUtilities implements StorageInterface {
   }
 
   /**
-   * @param uid
    * @param collection_id
    * @param data
    */
   @Override
-  public void addCollection(
-      String uid, String collection_id, String doc_id, Map<String, Object> data) {
-    if (uid == null) {
-      throw new IllegalArgumentException("removeUser: uid cannot be null");
-    }
+  public void addCollection(String collection_id, String doc_id, Map<String, Object> data) {
     try {
       Firestore db = FirestoreClient.getFirestore();
       CollectionReference collectionRef =
-          db.collection("users").document(uid).collection(collection_id);
+          db.collection("users").document("Host").collection(collection_id);
 
       DocumentReference docRef = collectionRef.document(doc_id);
       docRef.set(data);
@@ -139,7 +134,7 @@ public class FirebaseUtilities implements StorageInterface {
       throw new IllegalArgumentException("isUserCollection: uid cannot be null");
     }
     try {
-      List<Map<String, Object>> surveyDocs = getCollection(uid, "survey");
+      List<Map<String, Object>> surveyDocs = getCollection("survey");
 
       if (surveyDocs.isEmpty()) {
         return false;
