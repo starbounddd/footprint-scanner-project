@@ -8,11 +8,14 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.storage.Blob;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.cloud.StorageClient;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -28,9 +31,12 @@ public class FirebaseUtilities implements StorageInterface {
     // https://docs.google.com/document/d/10HuDtBWjkUoCaVj_A53IFm5torB_ws06fW3KYFZqKjc/edit?usp=sharing
     String workingDirectory = System.getProperty("user.dir");
     Path firebaseConfigPath =
-        Paths.get(workingDirectory, "server", "src", "main", "resources", "firebase_config.json");
+        Paths.get(workingDirectory, "src", "main", "resources",
+            "firebase_config.json");
+    //C:\Users\ppeck\Downloads\Projects\footprint-scanner-project\server\src\main\resources\firebase_config.json
     // ^-- if your /resources/firebase_config.json.json exists but is not found,
     // try printing workingDirectory and messing around with this path.
+    System.out.println(workingDirectory);
     FileInputStream serviceAccount = new FileInputStream(firebaseConfigPath.toString());
 
     FirebaseOptions options =
@@ -39,6 +45,20 @@ public class FirebaseUtilities implements StorageInterface {
             .build();
 
     FirebaseApp.initializeApp(options);
+  }
+
+  @Override
+  public String uploadImageToStorage(InputStream inputStream, String fileName, String contentType)
+      throws IOException {
+    String path = "images/" + fileName;
+
+    Blob blob = StorageClient.getInstance().bucket().create(
+        path,
+        inputStream,
+        contentType
+    );
+
+    return String.format("https://storage.googleapis.com/%s/%s", blob.getBucket(), blob.getName());
   }
 
   @Override

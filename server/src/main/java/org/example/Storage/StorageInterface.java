@@ -1,5 +1,7 @@
 package org.example.Storage;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -11,10 +13,14 @@ public interface StorageInterface {
 
   void addCollection(String collection_id, String doc_id, Map<String, Object> data);
 
+
   List<Map<String, Object>> getCollection(String collection_id)
       throws InterruptedException, ExecutionException;
 
   void clearUser(String uid) throws InterruptedException, ExecutionException;
 
   boolean isUserCollection(String uid) throws InterruptedException, ExecutionException;
+
+  String uploadImageToStorage(InputStream inputStream, String fileName,
+      String contentType) throws IOException;
 }

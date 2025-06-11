@@ -7,3 +7,15 @@ export interface ControlPanelProps {
     mode: AppMode;
     setMode: (mode: AppMode) => void;
     }
+
+  export type ImageData = {
+    imageName: string;
+    imageUrl: string;
+  }
+
+export interface ViewStorageProps {
+    storedImages: ImageData[];
+    setStoredImages: React.Dispatch<React.SetStateAction<ImageData[]>>;
+    isImageStored: boolean;
+}
+

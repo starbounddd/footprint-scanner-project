@@ -18,6 +18,7 @@
 .env.test.local
 resources/
 .env
+firebaseConfig.ts
 .env.production.local
 
 npm-debug.log*

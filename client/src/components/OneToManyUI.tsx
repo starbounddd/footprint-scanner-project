@@ -4,48 +4,69 @@ import "../styles/components.css";
 import { AppMode } from "../types";
 import { ControlPanelProps } from "../types";
 import { timeStamp } from "console";
+import { initializeApp } from "firebase/app";
+import { ImageData } from "../types";
+import { ViewStorage } from "./ViewStorage";
 
 export function OneToManyUI(props: ControlPanelProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [fingerprintImageOne, setFingerprintImageOne] = useState<File | null>(
     null
   );
+  const [isImageStored, setIsImageStored] = useState(false);
+
   const [imageOneName, setImageOneName] = useState("");
-  const [imagesLoaded, setImagesLoaded] = useState(false);
-  const [storedImages, setStoredImages] = useState<string[]>([]);
+  const [storedImages, setStoredImages] = useState<ImageData[]>([]);
+  if (storedImages.length > 0) {
+    setIsImageStored(true);
+  }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       setFingerprintImageOne(event.target.files[0]);
     }
   };
-  const formData = new FormData();
-  formData.append('file', fingerprintImageOne as Blob);
+
+
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    
+
     try {
-      // You may want to use formData and actually upload the file here
-      const loadImages = await fetch(`http://localhost:6464/?AddToStorage`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          imageName: imageOneName,
-          imageFile: formData,
-          timeStamp: new Date().toISOString()
-        }),
-      });
-      const data = await loadImages.json();
-      const imageUrl = URL.createObjectURL(
-        fingerprintImageOne as Blob
-      );
-        setStoredImages((prev) => [...prev, imageUrl]);
-      console.log("Data:", data);
+      // const loadImages = await fetch(`http://localhost:6464/loadToStorage?timeStamp=${new Date().toISOString()}&imageName=${imageOneName}`, {
+      //   method: "POST",
+      //   body: formData,
+      // });
+      // const data = await loadImages.json();
+      // const imageUrl = URL.createObjectURL(fingerprintImageOne as Blob);
+      const imageUrl = URL.createObjectURL(fingerprintImageOne as Blob);
+      const imageData: ImageData = {
+        imageName: imageOneName,
+        imageUrl: imageUrl,
+      };
+      setStoredImages((prev) => [...prev, imageData]);
+      console.log("Data:", imageData);
     } catch (error) {
       alert("Error loading images: " + error);
     }
+    // try {
+    //     const storage = getStorage();
+    //     const storageRef = ref(storage, `images/${imageOneName}_${Date.now()}`);
+    //     await uploadBytes(storageRef, fingerprintImageOne as Blob);
+    //     const imageUrl = await getDownloadURL(storageRef);
+
+    //     await addDoc(collection(db, "images"), {
+    //         name: imageOneName,
+    //         url: imageUrl,
+    //         timeStamp: new Date().toISOString(),
+    //       });
+
+    //     setStoredImages((prev) => [...prev, imageUrl]);
+    // } catch (error) {
+    //   alert("Error uploading image: " + error);
+    // }
+    
   };
 
   return (
@@ -97,7 +118,13 @@ export function OneToManyUI(props: ControlPanelProps) {
       </button>
       <div className="control-panel-footer">
         <h3>Control Panel Footer</h3>
+        <ViewStorage
+          storedImages={storedImages}
+          setStoredImages={setStoredImages}
+          isImageStored={isImageStored}
+        />
       </div>
     </form>
+    
   );
 }
