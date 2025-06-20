@@ -34,6 +34,7 @@ public class RunScannerHandler implements Route {
      500dpi is the most common resolution. SourceAFIS ignores any DPI stored in images themselves.
      */
     try {
+      
       Path filePath1 = Paths.get(this.imageFile.getFilePath());
       Path filePath2 = Paths.get(this.candidateImage.getFilePath());
       var probe = new FingerprintTemplate(

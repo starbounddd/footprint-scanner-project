@@ -44,6 +44,12 @@ public class FirebaseUtilities implements StorageInterface {
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
             .build();
 
+//    FirebaseOptions options =
+//        new FirebaseOptions.Builder()
+//            .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+//            .setStorageBucket("footprint-img-storage.firebasestorage.app") // <-- Add this line
+//            .build();
+
     FirebaseApp.initializeApp(options);
   }
 

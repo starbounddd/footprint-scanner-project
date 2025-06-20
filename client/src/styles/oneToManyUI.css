@@ -1,0 +1,122 @@
+/* OneToManyUI Custom Styles */
+
+.main-panel-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2.5rem;
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.left-control-panel {
+  background: #f7f7f7;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  max-width: 400px;
+  min-width: 320px;
+  flex: 0 0 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.control-panel-header h2 {
+  margin: 0 0 1.2rem 0;
+  font-size: 2rem;
+  color: #2d3a4a;
+  text-align: center;
+  font-weight: 700;
+}
+
+.mode-toggle {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  justify-content: center;
+}
+
+.mode-toggle button {
+  background: #e0e7ff;
+  color: #2d3a4a;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.3rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.mode-toggle button:hover {
+  background: #6366f1;
+  color: #fff;
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  color: #444;
+  align-self: flex-start;
+}
+
+input[type="file"],
+input[type="text"] {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  margin-bottom: 1rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 7px;
+  font-size: 1rem;
+  background: #fff;
+  transition: border 0.2s;
+}
+input[type="file"] {
+  padding: 0.5rem 0.2rem;
+}
+input[type="text"]:focus,
+input[type="file"]:focus {
+  border: 1.5px solid #6366f1;
+  outline: none;
+}
+
+.submit-button {
+  background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 0.8rem 1.6rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.submit-button:hover {
+  background: linear-gradient(90deg, #60a5fa 0%, #6366f1 100%);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.15);
+}
+
+.control-panel-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #888;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 900px) {
+  .main-panel-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .left-control-panel,
+  .view-storage {
+    max-width: 95vw;
+    min-width: unset;
+    width: 100%;
+  }
+}

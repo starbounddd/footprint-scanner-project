@@ -20,6 +20,7 @@ resources/
 .env
 firebaseConfig.ts
 .env.production.local
+target/
 
 npm-debug.log*
 yarn-debug.log*

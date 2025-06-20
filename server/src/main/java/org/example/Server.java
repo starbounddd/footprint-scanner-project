@@ -1,6 +1,7 @@
 package org.example;
 
 import static spark.Spark.after;
+import static spark.Spark.before;
 import static spark.Spark.options;
 import static spark.Spark.get;
 
@@ -25,21 +26,19 @@ public class Server {
       if (accessControlRequestHeaders != null) {
         response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
       }
-
       String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
       if (accessControlRequestMethod != null) {
         response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
       }
-
       return "OK";
     });
 
-    // Add CORS headers to all responses
-    after((request, response) -> {
-      response.header("Access-Control-Allow-Origin", "*");
-      response.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    before((request, response) -> {
+      response.header("Access-Control-Allow-Origin", "http://localhost:3000");
+      response.header("Access-Control-Allow-Credentials", "true");
       response.header("Access-Control-Allow-Headers",
-          "Content-Type, Authorization, X-Requested-With");
+          "Origin, Content-Type, Accept, Authorization");
+      response.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
     });
 
     ImageFile imageFile1 = new ImageFile();
