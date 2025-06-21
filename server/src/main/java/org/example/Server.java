@@ -8,6 +8,7 @@ import static spark.Spark.get;
 import java.io.IOException;
 import org.example.Handlers.AddToStorage;
 import org.example.Handlers.LoadImageHandler;
+import org.example.Handlers.NImageScanHandler;
 import org.example.Handlers.RunScannerHandler;
 import org.example.Handlers.ViewImageHandler;
 import org.example.Storage.FirebaseUtilities;
@@ -54,6 +55,7 @@ public class Server {
       Spark.get("viewimage2", new ViewImageHandler(candidateImage));
       Spark.get("runscanner", new RunScannerHandler(imageFile1, candidateImage));
       Spark.post("loadToStorage", new AddToStorage(firebaseUtils));
+      Spark.post("scanMultiple", new NImageScanHandler());
 
       Spark.init();
       Spark.awaitInitialization();
