@@ -26,8 +26,11 @@ import spark.Route;
 
 public class NImageScanHandler implements Route {
 
+  private HashMap<String, Object> responseMap;
+
   @Override
   public Object handle(Request request, Response response) throws Exception {
+    this.responseMap = new HashMap<String, Object>();
     response.type("application/json");
     // Enable multipart handling
     request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/tmp"));
@@ -38,6 +41,7 @@ public class NImageScanHandler implements Route {
       if (probePart == null) {
         return new RunScannerHandler.ScannerFailureResponse("Probe image not found").serialize();
       }
+
       byte[] probeBytes = probePart.getInputStream().readAllBytes();
       var probe = new FingerprintTemplate(
           new FingerprintImage(
@@ -63,18 +67,17 @@ public class NImageScanHandler implements Route {
       }
 
       ArrayList<Subject> matchingSubjects = identifyN(probe, subjects);
+      for (Subject subject : matchingSubjects) {
+        this.responseMap.put(String.valueOf(subject.id()), subject.name());
+      }
 
-      HashMap<String, Object> responseMap = new HashMap<>();
       if (!matchingSubjects.isEmpty()) {
-        responseMap.put("success",
-            "Match Found! The following matches were found:" + matchingSubjects);
-        System.out.println("Matching subjects: " + matchingSubjects);
-        System.out.println("subjects: " + subjects);
+        System.out.println("Match Found! The following matches were found:" + matchingSubjects);
       } else {
-        responseMap.put("success",
+        this.responseMap.put("success",
             "Match Not Found. The following matches were not found");
       }
-      return new RunScannerHandler.ScannerSuccessResponse(responseMap).serialize();
+      return new RunScannerHandler.ScannerSuccessResponse(this.responseMap).serialize();
 
     } catch (IOException e) {
       e.printStackTrace();

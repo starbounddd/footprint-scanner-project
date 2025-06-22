@@ -11,9 +11,9 @@ import { ViewStorage } from "./ViewStorage";
 
 export function OneToManyUI(props: ControlPanelProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [setProbe, setSetProbe] = useState<string | null>(null);
   const [storedImages, setStoredImages] = useState<ImageData[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [storeMatches, setStoreMatches] = useState<string[]>([]);
   const [probeFile, setProbeFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,6 +31,7 @@ export function OneToManyUI(props: ControlPanelProps) {
     } else {
       const storedImagesFromLocalStorage = localStorage.getItem("storedImages");
       if (storedImagesFromLocalStorage) {
+        console.log("Stored images from localStorage:", storedImagesFromLocalStorage);
         setStoredImages(JSON.parse(storedImagesFromLocalStorage));
       }
     }
@@ -72,7 +73,14 @@ export function OneToManyUI(props: ControlPanelProps) {
         return;
       }
       setIsLoading(false);
-      if (data.status === "success") {
+      if (data.responseMap) {
+        Object.values(data.responseMap).forEach((value) => {
+          // Do something with value
+         console.log(value);
+        storeMatches.push(value as string);
+         
+        });
+
         alert("Files uploaded successfully!");
       } else {
         alert("Error uploading files: " + (data.message || "Unknown error"));
@@ -81,6 +89,7 @@ export function OneToManyUI(props: ControlPanelProps) {
       setIsLoading(false);
       alert("Error uploading files: " + error);
     }
+    console.log(storeMatches);
   };
 
   return (
@@ -125,7 +134,7 @@ export function OneToManyUI(props: ControlPanelProps) {
         />
         {/* @ts-ignore: webkitdirectory is a non-standard attribute but supported by browsers */}
         <label htmlFor="fingerprintImageOne" aria-label="Fingerprint Image One">
-          Choose Images To Add To Storage
+          Choose Images To Scan Against Probe Image
         </label>
         <input
           type="file"
