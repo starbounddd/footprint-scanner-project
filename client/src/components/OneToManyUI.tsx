@@ -52,6 +52,7 @@ export function OneToManyUI(props: ControlPanelProps) {
       selectedFiles.forEach((file, idx) => {
         formData.append("files", file, file.webkitRelativePath || file.name);
       });
+      
       // Append probe image (can be any file)
       formData.append(
         "probeImage",
@@ -74,10 +75,12 @@ export function OneToManyUI(props: ControlPanelProps) {
       }
       setIsLoading(false);
       if (data.responseMap) {
+        
         Object.values(data.responseMap).forEach((value) => {
           // Do something with value
          console.log(value);
         storeMatches.push(value as string);
+
          
         });
 
@@ -185,6 +188,19 @@ export function OneToManyUI(props: ControlPanelProps) {
         )}
         <div className="control-panel-footer">
           <h3>Control Panel Footer</h3>
+          <div>
+            {storeMatches.length > 0 && (
+              <div>
+                <h4>Matching Results:</h4>
+                <ul>
+                  {storeMatches.map((match, index) => (
+                    <li key={index}>{match}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            </div>
+
         </div>
       </form>
       <ViewStorage
