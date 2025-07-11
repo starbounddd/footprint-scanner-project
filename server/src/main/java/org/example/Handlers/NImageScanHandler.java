@@ -36,7 +36,6 @@ public class NImageScanHandler implements Route {
     request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/tmp"));
 
     try {
-      // Get probe image part
       Part probePart = request.raw().getPart("probeImage");
       if (probePart == null) {
         return new RunScannerHandler.ScannerFailureResponse("Probe image not found").serialize();
